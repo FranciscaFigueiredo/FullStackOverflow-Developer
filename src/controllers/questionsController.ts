@@ -34,7 +34,18 @@ async function findQuestionById(req: Request, res: Response) {
     }
 }
 
+async function findUnansweredQuestions(req: Request, res: Response) {
+    try {
+        const unansweredQuestions = await questionsService.findUnansweredQuestions();
+
+        res.status(201).send(unansweredQuestions);
+    } catch (error) {
+        res.status(500);
+    }
+}
+
 export {
     postQuestions,
     findQuestionById,
+    findUnansweredQuestions,
 };

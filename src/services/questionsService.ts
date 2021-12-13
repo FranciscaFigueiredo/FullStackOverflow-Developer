@@ -38,7 +38,14 @@ async function findQuestionById(id: number) {
     return questionAnswered;
 }
 
+async function findUnansweredQuestions() {
+    const questions = await questionsRepository.findUnansweredQuestions();
+
+    return questions;
+}
+
 export {
     registerQuestion,
     findQuestionById,
+    findUnansweredQuestions,
 };
