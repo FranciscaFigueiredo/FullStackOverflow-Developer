@@ -2,14 +2,21 @@ import { Request, Response } from 'express';
 import * as answersService from '../services/answersService';
 
 async function postAnswer(req: Request, res: Response) {
-    const answer: string = req.body.question;
+    const { id } = req.params;
+    const token: string = res.locals.user;
+
+    // eslint-disable-next-line prefer-destructuring
+    const answer: string = req.body.answer;
 
     try {
-        const body = await answersService.registerAnswer(answer);
+        const body = await answersService.registerAnswer({ answer, token, id });
 
-        res.status(201).send(body);
+        return res.status(201).send(body);
     } catch (error) {
-        res.status(500);
+        if (error.name === 'UnauthorizedAccess') {
+            return res.status(401).send(error.message);
+        }
+        return res.status(500);
     }
 }
 

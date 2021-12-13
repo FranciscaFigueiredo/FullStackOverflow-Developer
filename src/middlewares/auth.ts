@@ -1,25 +1,26 @@
 import { NextFunction, Request, Response } from 'express';
-import { findStudentByToken } from '../repositories/studentRepository';
+import * as studentRepository from '../repositories/studentRepository';
 
 async function auth(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers.authorization?.replace('Bearer ', '');
+    const token: string = req.headers.authorization?.replace('Bearer ', '');
 
-    let userId = null;
+    // let idUser = null;
 
     if (!token) {
         return res.sendStatus(401);
     }
 
     try {
-        const user = await findStudentByToken(token);
+        const user = await studentRepository.findStudentByToken(token);
+
         if (user === null) {
             res.sendStatus(401);
         }
-        userId = user.id;
+        // idUser = user.id;
     } catch (error) {
         res.sendStatus(500);
     }
-    res.locals.user = userId;
+    res.locals.user = token;
     return next();
 }
 
