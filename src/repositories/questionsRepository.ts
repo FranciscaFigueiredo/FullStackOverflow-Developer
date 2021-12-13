@@ -20,6 +20,27 @@ async function create(questionInfo: QuestionCreate) {
     return null;
 }
 
+async function findQuestion(id: number) {
+    const result = await connection.query(`
+      SELECT * FROM questions WHERE questions.id = $1
+    `, [id]);
+
+    return result.rows[0];
+}
+
+async function findAnsweredQuestion(id: number) {
+    const result = await connection.query(`
+        SELECT * FROM questions
+        JOIN answers
+            ON questions.id = answers.question_id
+        WHERE questions.id = $1
+    `, [id]);
+
+    return result.rows[0];
+}
+
 export {
     create,
+    findQuestion,
+    findAnsweredQuestion,
 };
