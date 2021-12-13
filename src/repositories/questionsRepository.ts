@@ -45,7 +45,7 @@ async function findUnansweredQuestions() {
         WHERE answered = FALSE;
     `);
 
-    return result.rows[0];
+    return result.rows;
 }
 
 export {
