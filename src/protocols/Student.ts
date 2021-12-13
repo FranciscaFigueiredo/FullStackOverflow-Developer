@@ -3,6 +3,12 @@ export interface Student {
     classStudent: string;
 }
 
+export interface StudentRegister {
+    name: string;
+    classStudent: string;
+    token: string;
+}
+
 export interface StudentDB {
     id: number;
     name: string;

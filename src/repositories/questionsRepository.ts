@@ -22,7 +22,7 @@ async function create(questionInfo: QuestionCreate) {
 
 async function findQuestion(id: number) {
     const result = await connection.query(`
-      SELECT * FROM questions WHERE questions.id = $1
+      SELECT * FROM questions WHERE id = $1
     `, [id]);
 
     return result.rows[0];
@@ -42,8 +42,8 @@ async function findAnsweredQuestion(id: number) {
 async function findUnansweredQuestions() {
     const result = await connection.query(`
         SELECT
-            questions.id, questions.question, questions.submitAt,
-            students.name AS student
+            questions.id, questions.question, questions."submitAt",
+            students.name AS student,
             classes.name AS class
         FROM questions
         JOIN students
