@@ -9,7 +9,7 @@ async function create(studentInfo: Student) {
 
     const insert = await connection.query(`
         INSERT INTO students
-            (name, class)
+            (name, class, token)
         VALUES
             ($1, $2);
     `, [name, classStudent]);
@@ -33,7 +33,17 @@ async function findStudent(studentInfo: Student): Promise<StudentDB> {
     return search.rows[0];
 }
 
+async function findStudentByToken(token: string): Promise<StudentDB> {
+    const search = await connection.query(`
+        SELECT * FROM students
+        WHERE token = $1;
+    `, [token]);
+
+    return search.rows[0];
+}
+
 export {
     create,
     findStudent,
+    findStudentByToken,
 };

@@ -1,3 +1,8 @@
 export interface Answer {
-    name: string;
+    answer: string;
+}
+
+export interface AnswerDB {
+    id: number;
+    answer: string;
 }
