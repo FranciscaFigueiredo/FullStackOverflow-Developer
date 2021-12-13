@@ -23,6 +23,29 @@ async function postQuestions(req: Request, res: Response) {
     }
 }
 
+async function findQuestionById(req: Request, res: Response) {
+    const id: number = Number(req.params.id);
+    try {
+        const body = await questionsService.findQuestionById(id);
+
+        res.status(201).send(body);
+    } catch (error) {
+        res.status(500);
+    }
+}
+
+async function findUnansweredQuestions(req: Request, res: Response) {
+    try {
+        const unansweredQuestions = await questionsService.findUnansweredQuestions();
+
+        res.status(201).send(unansweredQuestions);
+    } catch (error) {
+        res.status(500);
+    }
+}
+
 export {
     postQuestions,
+    findQuestionById,
+    findUnansweredQuestions,
 };

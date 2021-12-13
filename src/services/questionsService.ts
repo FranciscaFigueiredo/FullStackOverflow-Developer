@@ -26,6 +26,26 @@ async function registerQuestion(questionInfo: Question): Promise<Question> {
     return questionCreated;
 }
 
+async function findQuestionById(id: number) {
+    const question = await questionsRepository.findQuestion(id);
+
+    if (question.answered === false) {
+        return question;
+    }
+
+    const questionAnswered = await questionsRepository.findAnsweredQuestion(id);
+
+    return questionAnswered;
+}
+
+async function findUnansweredQuestions() {
+    const questions = await questionsRepository.findUnansweredQuestions();
+
+    return questions;
+}
+
 export {
     registerQuestion,
+    findQuestionById,
+    findUnansweredQuestions,
 };
