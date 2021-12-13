@@ -2,6 +2,7 @@ import * as studentRepository from '../repositories/studentRepository';
 import * as questionsRepository from '../repositories/questionsRepository';
 
 import { Question } from '../protocols/Question';
+import UnauthorizedAccess from '../errors/unauthorizedAccess';
 
 async function registerQuestion(questionInfo: Question): Promise<Question> {
     const {
@@ -11,10 +12,10 @@ async function registerQuestion(questionInfo: Question): Promise<Question> {
         tags,
     } = questionInfo;
 
-    let user = await studentRepository.findStudent({ name: student, classStudent });
+    const user = await studentRepository.findStudent({ name: student, classStudent });
 
     if (user === null) {
-        user = await studentRepository.create({ name: student, classStudent });
+        throw new UnauthorizedAccess('User not registered');
     }
 
     const questionCreated = await questionsRepository.create({

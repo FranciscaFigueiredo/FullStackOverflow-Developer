@@ -41,7 +41,15 @@ async function findAnsweredQuestion(id: number) {
 
 async function findUnansweredQuestions() {
     const result = await connection.query(`
-        SELECT * FROM questions
+        SELECT
+            questions.id, questions.question, questions.submitAt,
+            students.name AS student
+            classes.name AS class
+        FROM questions
+        JOIN students
+            ON questions.student_id = students.id
+        JOIN classes
+            ON students.class_id = classes.id
         WHERE answered = FALSE;
     `);
 
