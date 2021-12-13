@@ -30,11 +30,21 @@ async function findQuestion(id: number) {
 
 async function findAnsweredQuestion(id: number) {
     const result = await connection.query(`
-        SELECT * FROM questions
+        SELECT 
+            questions.question, questions.tags, questions.answered, questions."submitAt",
+            answered_questions."answeredAt",
+            answers.answer,
+            students.name AS "answeredBy"
+        FROM questions
+        JOIN answered_questions
+            ON answered_questions.question_id = questions.id
         JOIN answers
-            ON questions.id = answers.question_id
+            ON answered_questions.answer_id = answers.id
+        JOIN students
+            ON students.id = answers.student_id
         WHERE questions.id = $1;
     `, [id]);
+    console.log(result.rows)
 
     return result.rows[0];
 }
