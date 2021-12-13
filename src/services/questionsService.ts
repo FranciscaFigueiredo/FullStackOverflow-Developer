@@ -13,7 +13,7 @@ async function registerQuestion(questionInfo: Question): Promise<Question> {
     } = questionInfo;
 
     const user = await studentRepository.findStudent({ name: student, classStudent });
-    console.log(user)
+
     if (user === null) {
         throw new UnauthorizedAccess('User not registered');
     }
