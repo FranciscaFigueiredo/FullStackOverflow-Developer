@@ -29,7 +29,8 @@ async function findStudent(studentInfo: Student): Promise<StudentDB> {
     } = studentInfo;
 
     const search = await connection.query(`
-        SELECT * FROM students
+        SELECT students.*, classes.id AS class_id
+        FROM students
         JOIN classes 
             ON students.class_id = classes.id
         WHERE students.name = $1 AND classes.name = $2;
@@ -42,16 +43,16 @@ async function findStudent(studentInfo: Student): Promise<StudentDB> {
     return null;
 }
 
-async function findStudentByToken(token: string): Promise<StudentDB> {
+async function findStudentByToken(token: string): Promise<any> {
     const search = await connection.query(`
         SELECT * FROM students
         WHERE token = $1;
     `, [token]);
 
-    if (search.rowCount) {
-        return search.rows[0];
+    if (!search.rowCount) {
+        return null;
     }
-    return null;
+    return search.rows[0];
 }
 
 async function findClassByName(name: string): Promise<any> {

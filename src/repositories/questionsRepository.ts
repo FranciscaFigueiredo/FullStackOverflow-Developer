@@ -7,6 +7,7 @@ async function create(questionInfo: QuestionCreate) {
         studentId,
         tags,
     } = questionInfo;
+    console.log({questionInfo})
 
     const insert = await connection.query(`
         INSERT INTO questions
