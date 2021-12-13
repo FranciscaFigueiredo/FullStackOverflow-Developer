@@ -7,6 +7,7 @@ async function registerAnswer(answerInfo: any): Promise<AnswerDB> {
     const {
         answer,
         token,
+        id,
     } = answerInfo;
 
     const user = await studentRepository.findStudentByToken(token);
@@ -15,7 +16,11 @@ async function registerAnswer(answerInfo: any): Promise<AnswerDB> {
         throw new UnauthorizedAccess('Unregistered user');
     }
 
-    const answerTheQuestion = await answerRepository.create({ answer, userId: user.id });
+    const answerTheQuestion = await answerRepository.create({
+        answer,
+        userId: user.id,
+        questionId: id,
+    });
 
     return answerTheQuestion;
 }

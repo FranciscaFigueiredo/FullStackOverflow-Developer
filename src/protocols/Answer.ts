@@ -5,6 +5,7 @@ export interface Answer {
 export interface AnswerToCreate {
     answer: string;
     userId: number;
+    questionId: number;
 }
 
 export interface AnswerDB {
