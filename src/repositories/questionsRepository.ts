@@ -28,11 +28,28 @@ async function findQuestion(id: number) {
     return result.rows[0];
 }
 
+async function updateAnswer(id: number) {
+    const result = await connection.query(`
+      UPDATE questions SET answered = TRUE WHERE id = $1
+    `, [id]);
+
+    return result.rows[0];
+}
+
 async function findAnsweredQuestion(id: number) {
     const result = await connection.query(`
-        SELECT * FROM questions
+        SELECT 
+            questions.question, questions.tags, questions.answered, questions."submitAt",
+            answered_questions."answeredAt",
+            answers.answer,
+            students.name AS "answeredBy"
+        FROM questions
+        JOIN answered_questions
+            ON answered_questions.question_id = questions.id
         JOIN answers
-            ON questions.id = answers.question_id
+            ON answered_questions.answer_id = answers.id
+        JOIN students
+            ON students.id = answers.student_id
         WHERE questions.id = $1;
     `, [id]);
 
@@ -59,6 +76,7 @@ async function findUnansweredQuestions() {
 export {
     create,
     findQuestion,
+    updateAnswer,
     findAnsweredQuestion,
     findUnansweredQuestions,
 };
