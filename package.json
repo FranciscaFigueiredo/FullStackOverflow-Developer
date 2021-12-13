@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node ./src/server.ts",
     "start:prod": "NODE_ENV='production' npx nodemon ./src/server.ts",
-    "start:dev": "NODE_ENV='dev' npx nodemon ./src/server.ts",
+    "start:dev": "NODE_ENV=dev npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -12,9 +12,12 @@ async function auth(req: Request, res: Response, next: NextFunction) {
 
     try {
         const user = await findStudentByToken(token);
+        if (user === null) {
+            res.sendStatus(401);
+        }
         userId = user.id;
     } catch (error) {
-        res.sendStatus(401);
+        res.sendStatus(500);
     }
     res.locals.user = userId;
     return next();

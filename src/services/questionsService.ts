@@ -2,7 +2,7 @@ import * as studentRepository from '../repositories/studentRepository';
 import * as questionsRepository from '../repositories/questionsRepository';
 
 import { Question } from '../protocols/Question';
-import UnauthorizedAccess from '../errors/unauthorizedAccess';
+import UnauthorizedAccess from '../errors/UnauthorizedAccess';
 
 async function registerQuestion(questionInfo: Question): Promise<Question> {
     const {
