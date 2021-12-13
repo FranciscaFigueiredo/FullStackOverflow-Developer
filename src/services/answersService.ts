@@ -1,3 +1,4 @@
+import * as questionsRepository from '../repositories/questionsRepository';
 import * as answerRepository from '../repositories/answerRepository';
 import { AnswerDB } from '../protocols/Answer';
 import * as studentRepository from '../repositories/studentRepository';
@@ -21,6 +22,8 @@ async function registerAnswer(answerInfo: any): Promise<AnswerDB> {
         userId: user.id,
         questionId: id,
     });
+
+    await questionsRepository.updateAnswer(id);
 
     return answerTheQuestion;
 }
